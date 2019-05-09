@@ -6,6 +6,8 @@ WORKDIR /app
 
 RUN pip install -r app/requirements.txt
 
+WORKDIR ../
+
 EXPOSE 4000
 
 ENTRYPOINT [ "python" ]
