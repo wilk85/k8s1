@@ -21,7 +21,7 @@ node {
     // Roll out to canary environment
     case "canary":
         // Change deployed image in canary to the one we just built
-        sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./canary/deploy.yml")
+        sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./canary/*.yml")
         sh("kubectl --namespace=prod0 apply -f ./canary/")
         sh("echo http://`kubectl --namespace=prod0 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
