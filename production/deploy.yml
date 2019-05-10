@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: newapp
-        image: mynewcont.azurecr.io/newapp:v1
+        image: mynewcont.azurecr.io/newapp:v2
       imagePullSecrets:
       - name: secret
 ---
