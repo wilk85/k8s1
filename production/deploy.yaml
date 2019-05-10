@@ -27,7 +27,7 @@ metadata:
   labels:
     name: newapp
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 4000
