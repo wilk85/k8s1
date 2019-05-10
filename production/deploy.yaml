@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: newapp 
-  template: 
+  template:
     metadata:
       name: newapp
       labels:
