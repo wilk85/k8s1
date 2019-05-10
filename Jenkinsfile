@@ -32,7 +32,7 @@ node {
         sh("ls ./*")
         sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./production/*.yml")
         sh("kubectl -n prod0 apply -f ./production/")
-        sh("echo http://`kubectl --namespace=prod0 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
+        //sh("echo http://`kubectl --namespace=prod0 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
     // Roll out a dev environment
