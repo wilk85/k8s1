@@ -32,4 +32,4 @@ spec:
   - port: 80
     targetPort: 4000
   selector:
-app: newapp
+    app: newapp

@@ -23,13 +23,13 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: ClusterIP
+  name: newapp
   labels:
     name: newapp
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 80
     targetPort: 4000
   selector:
-app: newapp
+    app: newapp
