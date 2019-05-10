@@ -1,0 +1,36 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: newapp-dev
+spec:
+  replicas:
+  selector:
+    matchLabels:
+      app: newapp
+  template:
+    metadata:
+      name: newapp
+      labels:
+        app: newapp
+        env: dev
+    spec:
+      containers:
+      - name: newapp
+        image: mynewcont.azurecr.io/newapp:v2
+      imagePullSecrets:
+      - name: secret
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: newapp
+  labels:
+    name: newapp
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 4000
+  selector:
+    app: newapp
+
