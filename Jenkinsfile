@@ -30,7 +30,7 @@ node {
     case "master":
         // Change deployed image in master to the one we just built
         sh("ls ./*")
-        sh("sed -i.bak 's#${appRepo}#${imageTag}#g' ./production/*.yml")
+        sh("sed -i.bak 's/${appRepo}#${imageTag}/g' ./production/*.yml")
         sh("kubectl -n prod2 apply -f ./production/")
         sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
