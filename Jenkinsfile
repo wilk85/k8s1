@@ -38,7 +38,7 @@ node {
     // Roll out a dev environment
     default:
         // Create namespace if it doesn't exist
-        sh("kubectl get ns ${appName}-${env.BRANCH_NAME} || kubectl create ns ${appName}-${env.BRANCH_NAME}")
+        sh("sudo kubectl get ns ${appName}-${env.BRANCH_NAME} || kubectl create ns ${appName}-${env.BRANCH_NAME}")
         // Don't use public load balancing for development branches
         sh("sudo sed -i.bak 's#${appRepo}#${imageTag}#g' ./dev/*.yml")
         sh("sudo kubectl --namespace=${appName}-${env.BRANCH_NAME} apply -f ./dev/")
