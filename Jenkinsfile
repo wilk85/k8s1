@@ -1,5 +1,5 @@
 node {
-  def acr = 'mynewcont.azurecr.io'
+  def acr = 'mynewcont.azurecr.io/'
   def appName = 'newapp'
   def imageName = "${acr}/${appName}"
   def imageTag = "${imageName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
