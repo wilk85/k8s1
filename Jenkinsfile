@@ -22,8 +22,8 @@ node {
     case "canary":
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./canary/*.yml")
-        sh("kubectl --namespace=prod0 apply -f ./canary/")
-        sh("echo http://`kubectl --namespace=prod0 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
+        sh("kubectl --namespace=prod2 apply -f ./canary/")
+        sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
     // Roll out to production
@@ -31,8 +31,8 @@ node {
         // Change deployed image in master to the one we just built
         sh("ls ./*")
         sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./production/*.yml")
-        sh("kubectl -n prod0 apply -f ./production/")
-        //sh("echo http://`kubectl --namespace=prod0 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
+        sh("kubectl -n prod2 apply -f ./production/")
+        sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
     // Roll out a dev environment
