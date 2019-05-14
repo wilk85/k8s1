@@ -3,7 +3,7 @@ node {
   def appName = 'newapp'
   def imageName = "${acr}/${appName}"
   def imageTag = "${imageName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-  def appRepo = "mynewcont.azurecr.io/newapp:v2"
+  def appRepo = "mynewcont.azurecr.io/newapp:v1"
 
   checkout scm
   
@@ -22,17 +22,17 @@ node {
     case "canary":
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./canary/*.yml")
-        sh("kubectl --namespace=prod0 apply -f ./canary/")
-        sh("echo http://`kubectl --namespace=prod0 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
+        sh("kubectl --namespace=prod2 apply -f ./canary/")
+        sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
     // Roll out to production
     case "master":
         // Change deployed image in master to the one we just built
         sh("ls ./*")
-        sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./production/*.yml")
-        sh("kubectl -n prod0 apply -f ./production/")
-        //sh("echo http://`kubectl --namespace=prod0 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
+        sh("sed -i.bak 's/${appRepo}#${imageTag}/g' ./production/*.yml")
+        sh("kubectl -n prod2 apply -f ./production/")
+        sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
     // Roll out a dev environment
@@ -40,7 +40,7 @@ node {
         // Create namespace if it doesn't exist
         sh("kubectl get ns ${appName}-${env.BRANCH_NAME} || kubectl create ns ${appName}-${env.BRANCH_NAME}")
         // Don't use public load balancing for development branches
-        sh("sed -i.bak 's#${appRepo}#${imageTag}#' ./dev/*.yml")
+        sh("sed -i.bak 's/${appRepo}#${imageTag}/g' ./dev/*.yml")
         sh("kubectl --namespace=${appName}-${env.BRANCH_NAME} apply -f ./dev/")
         echo 'To access your environment run `kubectl proxy`'
         echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${appName}-${env.BRANCH_NAME}/services/${appName}:80"     
