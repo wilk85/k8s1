@@ -16,7 +16,7 @@ metadata:
     spec:
       containers:
       - name: newapp
-        image: mynewcont.azurecr.io/newapp:v2
+        image: mynewcont.azurecr.io/newapp:v1
       imagePullSecrets:
       - name: secret
 ---
