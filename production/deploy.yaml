@@ -12,7 +12,7 @@ spec:
       name: nowapka
       labels:
         app: nowapka
-        env: prod2
+        env: dev
     spec:
       containers:
       - name: nowapka
