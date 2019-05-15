@@ -1,35 +1,35 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: newapp
+  name: nowapka
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: newapp 
+      app: nowapka 
   template:
     metadata:
-      name: newapp
+      name: nowapka
       labels:
-        app: newapp
-        env: prod0
+        app: nowapka
+        env: prod2
     spec:
       containers:
-      - name: newapp
-        image: mynewcont.azurecr.io/newapp:v1
+      - name: nowapka
+        image: mynewcont.azurecr.io/nowapka:v1
       imagePullSecrets:
       - name: secret
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: newapp
+  name: nowapka
   labels:
-    name: newapp
+    name: nowapka
 spec:
   type: LoadBalancer
   ports:
   - port: 80
     targetPort: 4000
   selector:
-    app: newapp
+    app: nowapka
