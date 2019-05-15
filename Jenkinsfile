@@ -1,9 +1,9 @@
 node {
-  def acr = 'mynewcont.azurecr.io'
+  def acr = 'mycont.azurecr.io'
   def appName = 'nowapka'
   def imageName = "${acr}/${appName}"
   def imageTag = "${imageName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-  def appRepo = "mynewcont.azurecr.io/nowapka:v1"
+  def appRepo = "mycont.azurecr.io/nowapka:v1"
 
   checkout scm
   
@@ -22,8 +22,8 @@ node {
     case "canary":
         // Change deployed image in canary to the one we just built
         sh("sudo sed -i.bak 's#${appRepo}#${imageTag}#g' ./canary/*.yml")
-        sh("sudo kubectl --namespace=prod2 apply -f ./canary/")
-        sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
+        sh("sudo kubectl --namespace=prod3 apply -f ./canary/")
+        sh("echo http://`kubectl --namespace=prod3 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
     // Roll out to production
@@ -31,7 +31,7 @@ node {
         // Change deployed image in master to the one we just built
         sh("ls ./*")
         sh("sudo -s sed -i.bak 's#${appRepo}#${imageTag}#g' ./production/*.yaml")
-        sh("sudo -s kubectl --kubeconfig ~admin12/.kube/config --namespace=prod2 apply -f ./production/")
+        sh("sudo -s kubectl --kubeconfig ~admin12/.kube/config --namespace=prod3 apply -f ./production/")
         //sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
