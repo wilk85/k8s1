@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nowapka
-        image: mynewcont.azurecr.io/nowapka:v1
+        image: mycont.azurecr.io/nowapka:v1
       imagePullSecrets:
       - name: secret
 ---
