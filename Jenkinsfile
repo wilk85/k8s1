@@ -32,7 +32,7 @@ node {
         sh("ls ./*")
         sh("sudo -s sed -i.bak 's#${appRepo}#${imageTag}#g' ./production/*.yaml")
         sh("sudo -s kubectl --kubeconfig ~admin12/.kube/config --namespace=prod2 apply -f ./production/")
-        sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
+        //sh("echo http://`kubectl --namespace=prod2 get service/${appName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${appName}")
         break
 
     // Roll out a dev environment
